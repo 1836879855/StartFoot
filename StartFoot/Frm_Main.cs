@@ -55,7 +55,7 @@ namespace StartFoot
             {
                 StartSf temp = new StartSf();
                 temp.Path = x.FilePath;
-
+                temp.Name = x.Name;
                 if (!string.IsNullOrWhiteSpace(x.Url))
                 {
                     temp.Args = x.Url.Split(',');
@@ -77,6 +77,13 @@ namespace StartFoot
                             //var r=$"文件不存在，{req.Path}";
                             continue;
                         }
+
+                        bool isRunning = Process.GetProcessesByName(req.Name.Split('.').FirstOrDefault()).Any();
+                        if (isRunning)
+                        {
+                            continue;
+                        }
+
                         if (req?.Args?.Count() > 0)
                         {
                             req.Args.Select(x =>
@@ -161,6 +168,7 @@ namespace StartFoot
 
     public class StartSf
     {
+        public string Name { get; set; }
         public string Path { get; set; }
         public string[] Args { get; set; }
     }
