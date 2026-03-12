@@ -17,6 +17,10 @@ namespace StartFoot
         public Frm_Main()
         {
             InitializeComponent();
+
+            this.KeyPreview = true;
+            this.KeyDown += Frm_Main_KeyDown;
+
             string json = File.ReadAllText(jsonPath);
             softwares = JsonConvert.DeserializeObject<BindingList<SoftwareBag>>(json) ?? new BindingList<SoftwareBag>();
             gridControl1.DataSource = softwares;
@@ -48,6 +52,13 @@ namespace StartFoot
             };
         }
 
+        private void Frm_Main_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Escape)
+            {
+                Application.Exit(); // 退出程序
+            }
+        }
         private void Start()
         {
             List<StartSf> finRes = new List<StartSf>();
